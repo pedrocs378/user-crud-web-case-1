@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import { StylesProvider } from '@material-ui/core/styles';
 
 import { Button } from '../../components/Button'
+import { Input } from '../../components/Input'
 
-import { Container, Input } from './styles'
+import { Container } from './styles'
 
 export function Home() {
 
@@ -18,15 +19,19 @@ export function Home() {
 					</p>
 
 					<Input
+						name="email"
 						label="E-mail"
 						placeholder="Youraddres@email.com"
 					/>
+
 					<Input
+						name="password"
 						label="Senha"
 						placeholder="Enter your password"
+						isPassword
 					/>
 
-					<Button type="button">Login</Button>
+					<Button type="submit">Login</Button>
 
 					<p className="register">
 						Não possui uma conta? <Link to="register">Registrar-se</Link>
