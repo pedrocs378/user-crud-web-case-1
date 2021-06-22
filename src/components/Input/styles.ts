@@ -3,8 +3,6 @@ import TextField from '@material-ui/core/TextField';
 
 export const Container = styled(TextField)`
 	width: 100%;
-	margin-top: 4.7rem;
-	color: white;
 
 	label {
 		font-family: 'Open Sans', sans-serif;
@@ -31,7 +29,12 @@ export const Container = styled(TextField)`
 		}
 	}
 
+	svg {
+		color: var(--blue-dark);
+		opacity: 0.3;
+	}
+
 	& + div {
-		margin: 3.62rem 0;
+		margin-top: 2.84rem;
 	}
 `;

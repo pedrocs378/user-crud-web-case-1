@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { StylesProvider } from '@material-ui/core/styles';
 import { StandardTextFieldProps } from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -15,27 +16,31 @@ export function Input({ isPassword = false, ...rest }: InputProps) {
 
 	if (isPassword) {
 		return (
-			<Container
-				type={showPassword ? "text" : "password"}
-				InputProps={{
-					endAdornment: (
-						<InputAdornment position="end">
-							<IconButton
-								onClick={() => setShowPassoword(state => !state)}
-							>
-								{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-							</IconButton>
-						</InputAdornment>
-					)
-				}}
-				{...rest}
-			/>
+			<StylesProvider injectFirst>
+				<Container
+					type={showPassword ? "text" : "password"}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton
+									onClick={() => setShowPassoword(state => !state)}
+								>
+									{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+								</IconButton>
+							</InputAdornment>
+						)
+					}}
+					{...rest}
+				/>
+			</StylesProvider>
 		)
 	} else {
 		return (
-			<Container
-				{...rest}
-			/>
+			<StylesProvider injectFirst>
+				<Container
+					{...rest}
+				/>
+			</StylesProvider>
 		)
 	}
 }

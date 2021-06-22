@@ -1,20 +1,16 @@
 import { Link } from 'react-router-dom'
 
-import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
+import { Button } from '../../components/Button'
 
 import { Container } from './styles'
 
-export function Home() {
+export function Register() {
 
 	return (
 		<Container>
 			<form>
-				<h2>Entrar</h2>
-
-				<p className="subtitle">
-					O seu passaporte para o futuro.
-				</p>
+				<h2>Cadastro</h2>
 
 				<Input
 					name="email"
@@ -29,10 +25,17 @@ export function Home() {
 					isPassword
 				/>
 
-				<Button type="submit">Login</Button>
+				<Input
+					name="password_confirmation"
+					label="Confirmar senha"
+					placeholder="Enter your password confirmation"
+					isPassword
+				/>
 
-				<p className="register">
-					Não possui uma conta? <Link to="register">Registrar-se</Link>
+				<Button type="submit">Cadastrar</Button>
+
+				<p>
+					Já possui uma conta? <Link to="/">Entrar</Link>
 				</p>
 			</form>
 		</Container>
