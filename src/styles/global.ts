@@ -10,6 +10,8 @@ export default createGlobalStyle`
 		--gray-500: #898989;
 		--gray-600: #6A707E;
 
+		--blue-grayish-800: #464A53;
+
 		--cyan: #2EA4D4;
 
 		--blue-dark: #03014C;
