@@ -22,7 +22,7 @@ export const Container = styled.div`
 		top: 0;
 		left: 0;
 		background: #000;
-		opacity: 0.4;
+		opacity: 0.5;
 	}
 
 	form {
@@ -37,24 +37,16 @@ export const Container = styled.div`
 		h2 {
 			font-size: 2.976rem;
 			text-transform: uppercase;
-		}
-
-		p.subtitle {
-			opacity: 0.5;
-			margin: 1.375rem 0 4.71rem;
+			margin-bottom: 2.8125rem;
 		}
 
 		> button {
 			margin-top: 3rem;
 		}
 		
-		p.link {	
-			font-size: 1.07rem;
+		p {
 			margin-top: 2.61rem;
-
-			& + p {
-				margin-top: 0.5rem;
-			}
+			font-size: 1.07rem;
 
 			a {
 				color: var(--cyan);

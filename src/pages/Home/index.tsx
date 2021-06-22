@@ -31,7 +31,11 @@ export function Home() {
 
 				<Button type="submit">Login</Button>
 
-				<p className="register">
+				<p className="link">
+					Esqueceu sua senha? <Link to="forgot-password">Clique aqui</Link>
+				</p>
+
+				<p className="link">
 					Não possui uma conta? <Link to="register">Registrar-se</Link>
 				</p>
 			</form>
