@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MdDashboard, MdShoppingCart } from 'react-icons/md'
 import { GrMail } from 'react-icons/gr'
@@ -7,12 +8,20 @@ import { GoTools } from 'react-icons/go'
 import { IoSearchOutline } from 'react-icons/io5'
 import IconButton from '@material-ui/core/IconButton';
 
+import { EditUserModal } from '../../components/EditUserModal'
+
 import { Container, Navigation } from './styles'
 
 export function Dashboard() {
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
 	return (
 		<Container>
+			<EditUserModal
+				isOpen={isEditModalOpen}
+				onRequestClose={() => setIsEditModalOpen(false)}
+			/>
+
 			<aside>
 				<div className="logo">
 					<h1>Mind Education</h1>
@@ -91,7 +100,7 @@ export function Dashboard() {
 								<td>exemplo@exemplo.com</td>
 								<td>23/06/2021</td>
 								<td className="button">
-									<IconButton>
+									<IconButton onClick={() => setIsEditModalOpen(true)}>
 										<GoTools />
 									</IconButton>
 								</td>

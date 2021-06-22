@@ -1,4 +1,16 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, keyframes } from 'styled-components'
+
+const modalFadeAnimation = keyframes`
+	0% {
+		opacity: 0;
+		transform: translateY(-3%);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+`
 
 export default createGlobalStyle`
 	:root {
@@ -47,5 +59,31 @@ export default createGlobalStyle`
 
 	button {
 		cursor: pointer;
+	}
+
+	.react-modal-overlay {
+		background: rgba(243, 246, 249, 0.6);
+
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.react-modal-content {
+		width: 90%;
+		max-width: 576px;
+		background: var(--background);
+		padding: 3rem 1.5rem;
+		position: relative;
+		border-radius: 0.25rem;
+		outline: none;
+
+		animation: ${modalFadeAnimation} 700ms;
 	}
 `
