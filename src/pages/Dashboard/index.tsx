@@ -11,7 +11,15 @@ import IconButton from '@material-ui/core/IconButton';
 import { EditUserModal } from '../../components/EditUserModal'
 import { DeleteUserModal } from '../../components/DeleteUserModal'
 
-import { Container, Navigation } from './styles'
+import developerActivityImg from '../../assets/developer-activity.svg'
+
+import { Container, Navigation, UserWelcome } from './styles'
+
+const user = {
+	name: 'Pedro César',
+	email: 'pedrocs378@gmail.com',
+	isAdmin: false
+}
 
 export function Dashboard() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -35,47 +43,69 @@ export function Dashboard() {
 				</div>
 
 				<Navigation>
-					<strong>Navegação</strong>
+					{user.isAdmin ? (
+						<>
+							<strong>Navegação</strong>
 
-					<ul>
-						<li>
-							<Link to="/dashboard">
-								<MdDashboard />
-								Dashboard
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<GiBrickWall />
-								Função 2
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<GrMail />
-								Função 3
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<MdShoppingCart />
-								Função 4
-							</Link>
-						</li>
-					</ul>
+							<ul>
+								<li>
+									<Link to="/dashboard">
+										<MdDashboard />
+										Dashboard
+									</Link>
+								</li>
+								<li>
+									<Link to="#">
+										<GiBrickWall />
+										Função 2
+									</Link>
+								</li>
+								<li>
+									<Link to="#">
+										<GrMail />
+										Função 3
+									</Link>
+								</li>
+								<li>
+									<Link to="#">
+										<MdShoppingCart />
+										Função 4
+									</Link>
+								</li>
+							</ul>
+						</>
+					) : (
+						<>
+							<p>{user.email}</p>
+
+							<ul>
+								<li>
+									<button
+										type="button"
+										onClick={() => setIsEditModalOpen(true)}
+									>
+										<MdDashboard />
+										Editar perfil
+									</button>
+								</li>
+							</ul>
+						</>
+					)}
 				</Navigation>
 			</aside>
 
 			<header>
-				<label htmlFor="search">
-					<IoSearchOutline />
-					<input
-						type="text"
-						id="search"
-						name="search"
-						placeholder="Search..."
-					/>
-				</label>
+				{user.isAdmin && (
+					<label htmlFor="search">
+						<IoSearchOutline />
+						<input
+							type="text"
+							id="search"
+							name="search"
+							placeholder="Search..."
+						/>
+					</label>
+				)}
 
 				<button type="button">
 					Logout
@@ -84,60 +114,74 @@ export function Dashboard() {
 
 			<main>
 				<div>
-					<h2>Cadastros</h2>
+					{user.isAdmin && <h2>Cadastros</h2>}
 				</div>
 
-				<section>
-					<table>
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Nome</th>
-								<th>E-mail</th>
-								<th>Data de cadastro</th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
+				{user.isAdmin ? (
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nome</th>
+									<th>E-mail</th>
+									<th>Data de cadastro</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
 
-						<tbody>
-							<tr>
-								<td>01</td>
-								<td>Bitcoin</td>
-								<td>exemplo@exemplo.com</td>
-								<td>23/06/2021</td>
-								<td className="button">
-									<IconButton onClick={() => setIsEditModalOpen(true)}>
-										<GoTools />
-									</IconButton>
-								</td>
-								<td className="button">
-									<IconButton onClick={() => setIsDeleteModalOpen(true)}>
-										<AiOutlineCloseCircle />
-									</IconButton>
-								</td>
-							</tr>
-							<tr className="spacing" />
-							<tr>
-								<td>02</td>
-								<td>Bitcoin</td>
-								<td>exemplo@exemplo.com</td>
-								<td>23/06/2021</td>
-								<td className="button">
-									<IconButton>
-										<GoTools />
-									</IconButton>
-								</td>
-								<td className="button">
-									<IconButton>
-										<AiOutlineCloseCircle />
-									</IconButton>
-								</td>
-							</tr>
-							<tr className="spacing" />
-						</tbody>
-					</table>
-				</section>
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>Bitcoin</td>
+									<td>exemplo@exemplo.com</td>
+									<td>23/06/2021</td>
+									<td className="button">
+										<IconButton onClick={() => setIsEditModalOpen(true)}>
+											<GoTools />
+										</IconButton>
+									</td>
+									<td className="button">
+										<IconButton onClick={() => setIsDeleteModalOpen(true)}>
+											<AiOutlineCloseCircle />
+										</IconButton>
+									</td>
+								</tr>
+								<tr className="spacing" />
+								<tr>
+									<td>02</td>
+									<td>Bitcoin</td>
+									<td>exemplo@exemplo.com</td>
+									<td>23/06/2021</td>
+									<td className="button">
+										<IconButton>
+											<GoTools />
+										</IconButton>
+									</td>
+									<td className="button">
+										<IconButton>
+											<AiOutlineCloseCircle />
+										</IconButton>
+									</td>
+								</tr>
+								<tr className="spacing" />
+							</tbody>
+						</table>
+					</section>
+				) : (
+					<UserWelcome>
+						<strong>
+							Bem vindo,<br />
+							<span>{user.name}</span>
+						</strong>
+
+						<img
+							src={developerActivityImg}
+							alt="Desenvolvedor programando"
+						/>
+					</UserWelcome>
+				)}
 			</main>
 
 			<footer>

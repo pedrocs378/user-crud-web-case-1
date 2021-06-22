@@ -15,6 +15,7 @@ const modalFadeAnimation = keyframes`
 export default createGlobalStyle`
 	:root {
 		--white: #fff;
+		--black: #080F18;
 
 		--gray-50: #F3F3F3;
 		--gray-300: #ABAFB3;

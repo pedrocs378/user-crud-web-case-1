@@ -39,7 +39,6 @@ export const Container = styled.div`
 
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 
 		padding: 0 2.8125rem;
 
@@ -84,6 +83,7 @@ export const Container = styled.div`
 			border: 0;
 			font: 500 1rem 'Poppins', sans-serif;
 			background: transparent;
+			margin-left: auto;
 
 			transition: opacity 0.2s;
 
@@ -201,12 +201,23 @@ export const Navigation = styled.nav`
 		margin-left: 3.56rem;
 	}
 
+	> p {
+		color: var(--purple);
+		background: rgba(127, 99, 244, 0.2);
+		display: inline-block;
+		padding: 0.19rem 0.75rem;
+		margin-left: 3.56rem;
+		border-radius: 5px;
+
+		font: 500 0.875rem 'Poppins', sans-serif;
+	}
+
 	ul {
 		list-style: none;
 		margin-top: 1.25rem;
 
 		li {
-			a {
+			a, button {
 				position: relative;
 				display: flex;
 				align-items: center;
@@ -214,6 +225,8 @@ export const Navigation = styled.nav`
 				width: 100%;
 				height: 3.75rem;
 				padding-left: calc(3.56rem - 5px);
+				border: 0;
+				background: transparent;
 				border-left: 5px solid transparent;
 
 				text-decoration: none;
@@ -242,6 +255,40 @@ export const Navigation = styled.nav`
 					}
 				}
 			}
+		}
+	}
+`
+
+export const UserWelcome = styled.section`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	max-width: 1252px;
+	margin: 3rem auto;
+
+	strong {
+		font: 600 2rem 'Poppins', sans-serif;
+		color: var(--black);
+
+		span {
+			color: var(--purple);
+		}
+	}
+
+	img {
+		width: 29rem;
+		height: 29rem;
+	}
+
+	@media (min-width: 1400px) {
+		strong {
+			font-size: 2.9rem;
+		}
+
+		img {
+			width: 35rem;
+			height: 35rem;
 		}
 	}
 `
