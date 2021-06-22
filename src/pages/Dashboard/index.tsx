@@ -9,17 +9,24 @@ import { IoSearchOutline } from 'react-icons/io5'
 import IconButton from '@material-ui/core/IconButton';
 
 import { EditUserModal } from '../../components/EditUserModal'
+import { DeleteUserModal } from '../../components/DeleteUserModal'
 
 import { Container, Navigation } from './styles'
 
 export function Dashboard() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
 	return (
 		<Container>
 			<EditUserModal
 				isOpen={isEditModalOpen}
 				onRequestClose={() => setIsEditModalOpen(false)}
+			/>
+
+			<DeleteUserModal
+				isOpen={isDeleteModalOpen}
+				onRequestClose={() => setIsDeleteModalOpen(false)}
 			/>
 
 			<aside>
@@ -105,7 +112,7 @@ export function Dashboard() {
 									</IconButton>
 								</td>
 								<td className="button">
-									<IconButton>
+									<IconButton onClick={() => setIsDeleteModalOpen(true)}>
 										<AiOutlineCloseCircle />
 									</IconButton>
 								</td>

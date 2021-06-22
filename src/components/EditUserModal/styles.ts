@@ -4,6 +4,8 @@ export const Container = styled.form`
 	background: var(--white);
 	border-radius: 1.875rem;
 	padding: 2.75rem 5.5rem;
+	width: 90%;
+	max-width: 576px;
 
 	h2 {
 		text-transform: uppercase;
