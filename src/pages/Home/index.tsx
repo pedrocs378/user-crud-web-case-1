@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { FormEvent } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
@@ -7,9 +8,17 @@ import { Container } from './styles'
 
 export function Home() {
 
+	const history = useHistory()
+
+	function handleSignIn(event: FormEvent) {
+		event.preventDefault()
+
+		history.push('/dashboard')
+	}
+
 	return (
 		<Container>
-			<form>
+			<form onSubmit={handleSignIn}>
 				<h2>Entrar</h2>
 
 				<p className="subtitle">

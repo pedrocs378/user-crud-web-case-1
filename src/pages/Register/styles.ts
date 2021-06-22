@@ -22,7 +22,7 @@ export const Container = styled.div`
 		top: 0;
 		left: 0;
 		background: #000;
-		opacity: 0.4;
+		opacity: 0.5;
 	}
 
 	form {
