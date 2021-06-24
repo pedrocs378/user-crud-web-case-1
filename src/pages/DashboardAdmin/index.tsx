@@ -9,6 +9,7 @@ import { IoSearchOutline } from 'react-icons/io5'
 import IconButton from '@material-ui/core/IconButton';
 
 import { Logo } from '../../components/Logo'
+import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { DeleteUserModal } from '../../components/DeleteUserModal'
 import { Footer } from '../../components/Footer'
@@ -39,7 +40,7 @@ export function DashboardAdmin() {
 
 					<ul>
 						<li>
-							<Link to="/dashboard">
+							<Link to="/dashboard/admin">
 								<MdDashboard />
 								Dashboard
 							</Link>
@@ -66,7 +67,7 @@ export function DashboardAdmin() {
 				</Navigation>
 			</aside>
 
-			<header>
+			<Header>
 				<label htmlFor="search">
 					<IoSearchOutline />
 					<input
@@ -76,11 +77,7 @@ export function DashboardAdmin() {
 						placeholder="Search..."
 					/>
 				</label>
-
-				<button type="button">
-					Logout
-				</button>
-			</header>
+			</Header>
 
 			<main>
 				<div>

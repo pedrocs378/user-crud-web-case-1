@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { MdDashboard } from 'react-icons/md'
 
 import { Logo } from '../../components/Logo'
+import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { Footer } from '../../components/Footer'
 
@@ -45,11 +46,7 @@ export function Dashboard() {
 				</Navigation>
 			</aside>
 
-			<header>
-				<button type="button">
-					Logout
-				</button>
-			</header>
+			<Header />
 
 			<main>
 				<div />
