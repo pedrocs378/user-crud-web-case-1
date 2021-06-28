@@ -6,18 +6,17 @@ import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { Footer } from '../../components/Footer'
 
+import { useAuth } from '../../hooks/useAuth'
+
 import developerActivityImg from '../../assets/developer-activity.svg'
 
 import { Container, Navigation, UserWelcome } from './styles'
 
-const user = {
-	name: 'Pedro César',
-	email: 'pedrocs378@gmail.com',
-	isAdmin: false
-}
 
 export function Dashboard() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+	const { user } = useAuth()
 
 	return (
 		<Container>
@@ -30,7 +29,7 @@ export function Dashboard() {
 				<Logo />
 
 				<Navigation>
-					<p>{user.email}</p>
+					<p>{user?.email}</p>
 
 					<ul>
 						<li>
@@ -54,7 +53,7 @@ export function Dashboard() {
 				<UserWelcome>
 					<strong>
 						Bem vindo,<br />
-						<span>{user.name}</span>
+						<span>{user?.name}</span>
 					</strong>
 
 					<img

@@ -10,19 +10,22 @@ export const Container = styled.form`
 	h2 {
 		text-transform: uppercase;
 		text-align: center;
-		font-size: 2.115rem;
+		font-size: 2.1rem;
+	}
+
+	.input {
+		margin-top: 1rem;
 	}
 
 	button[type="submit"] {
-		margin-top: 2.83rem;
+		margin-top: 2.8rem;
 	}
 
 	> button[type="button"] {
 		border: 0;
 		background: transparent;
 		display: block;
-		margin: 2.61rem auto 0;
-		font-size: 1.07rem;
+		margin: 2.6rem auto 0;
 
 		transition: opacity 0.2s;
 

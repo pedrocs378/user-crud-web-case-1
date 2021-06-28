@@ -23,25 +23,29 @@ export function EditUserModal({ isOpen, onRequestClose }: EditUserModalProps) {
 				<h2>Editar</h2>
 
 				<Input
-					name="email"
-					label="E-mail"
-					placeholder="Youraddres@email.com"
-				/>
-				<Input
+					className="input"
 					name="name"
 					label="Nome"
-					placeholder="Name"
+					placeholder="Digite seu nome"
 				/>
 				<Input
+					className="input"
+					name="email"
+					label="E-mail"
+					placeholder="youraddres@email.com"
+				/>
+				<Input
+					className="input"
 					name="password"
 					label="Senha"
-					placeholder="Enter your password"
+					placeholder="********"
 					isPassword
 				/>
 				<Input
+					className="input"
 					name="password_confirmation"
-					label="Senha"
-					placeholder="Enter your password"
+					label="Confirme sua senha"
+					placeholder="********"
 					isPassword
 				/>
 
