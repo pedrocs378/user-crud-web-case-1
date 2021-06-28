@@ -1,35 +1,104 @@
-import { Link } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+import * as Yup from 'yup'
 
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 
+import { api } from '../../services/api'
+
 import { Container } from './styles'
 
 export function Register() {
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [password_confirmation, setPasswordConfirmation] = useState('')
+
+	const history = useHistory()
+
+	async function handleSaveRegister(event: FormEvent) {
+		event.preventDefault()
+
+		try {
+			const schema = Yup.object().shape({
+				name: Yup.string().required('Nome obrigatório'),
+				email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+				password: Yup.string().required('Senha obrigatória').min(6, 'A senha precisa ter no mínimo 6 caracteres'),
+				password_confirmation: Yup.string()
+					.oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais')
+			})
+
+			const data = {
+				name,
+				email,
+				password,
+				password_confirmation
+			}
+
+			await schema.validate(data, {
+				abortEarly: false
+			})
+
+			await api.post('/users', data)
+
+			toast.success('Cadastrado com sucesso!')
+			history.goBack()
+		} catch (err) {
+			if (err instanceof Yup.ValidationError) {
+				err.inner.forEach(error => {
+					toast.error(error.message)
+				})
+
+				return
+			}
+
+			toast.error('Algo deu errado. Tente novamente!')
+		}
+	}
 
 	return (
 		<Container>
-			<form>
+			<form onSubmit={handleSaveRegister}>
 				<h2>Cadastro</h2>
 
 				<Input
+					className="input"
+					name="name"
+					label="Nome"
+					placeholder="Digite o seu nome"
+					value={name}
+					onChange={event => setName(event.target.value)}
+				/>
+
+				<Input
+					className="input"
 					name="email"
 					label="E-mail"
-					placeholder="Youraddres@email.com"
+					placeholder="youraddres@email.com"
+					value={email}
+					onChange={event => setEmail(event.target.value)}
 				/>
 
 				<Input
+					className="input"
 					name="password"
 					label="Senha"
-					placeholder="Enter your password"
+					placeholder="********"
 					isPassword
+					value={password}
+					onChange={event => setPassword(event.target.value)}
 				/>
 
 				<Input
+					className="input"
 					name="password_confirmation"
 					label="Confirmar senha"
-					placeholder="Enter your password confirmation"
+					placeholder="********"
 					isPassword
+					value={password_confirmation}
+					onChange={event => setPasswordConfirmation(event.target.value)}
 				/>
 
 				<Button type="submit">Cadastrar</Button>

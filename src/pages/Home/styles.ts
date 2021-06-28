@@ -29,41 +29,67 @@ export const Container = styled.div`
 		position: relative;
 		width: 100%;
 		max-width: 35.3rem;
-		padding: 5.5rem;
+		padding: 2.9rem 5.5rem;
 
 		border-radius: 1.875rem;
 		background: var(--white);
 
 		h2 {
-			font-size: 2.976rem;
+			font-size: 2.9rem;
 			text-transform: uppercase;
 		}
 
 		p.subtitle {
 			opacity: 0.5;
-			margin: 1.375rem 0 4.71rem;
+			margin-top: 1.375rem;
+		}
+
+		.input {
+			margin-top: 3.5rem;
+
+			& + .input {
+				margin-top: 1.5rem;
+			}
 		}
 
 		> button {
 			margin-top: 3rem;
 		}
-		
-		p.link {	
-			font-size: 1.07rem;
-			margin-top: 2.61rem;
+	}
 
-			& + p {
-				margin-top: 0.5rem;
+	@media (max-height: 760px) {
+		form {
+			padding: 2rem 5rem;
+
+			h2 {
+				font-size: 2.5rem;
+			}
+			
+			p.subtitle {
+				margin-top: 0.8rem;
 			}
 
-			a {
-				color: var(--cyan);
-				text-decoration: none;
-
-				&:hover {
-					text-decoration: underline;
-				}
+			.input {
+				margin-top: 1.5rem;
 			}
 		}
 	}
 `;
+
+export const TextLink = styled.p`
+	font-size: 1.07rem;
+	margin-top: 2.61rem;
+
+	& + p {
+		margin-top: 0.5rem;
+	}
+
+	a {
+		color: var(--cyan);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+`

@@ -16,7 +16,7 @@ export const Container = styled(TextField)`
 	}
 
 	input {
-		font: 600 1.1875rem 'Open Sans', sans-serif;
+		font: 600 1.18rem 'Open Sans', sans-serif;
 		color: var(--blue-dark);
 		opacity: 0.7;
 		padding: 0.9rem 0;
@@ -32,9 +32,5 @@ export const Container = styled(TextField)`
 	svg {
 		color: var(--blue-dark);
 		opacity: 0.3;
-	}
-
-	& + div {
-		margin-top: 2.84rem;
 	}
 `;

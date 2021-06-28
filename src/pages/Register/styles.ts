@@ -29,15 +29,22 @@ export const Container = styled.div`
 		position: relative;
 		width: 100%;
 		max-width: 35.3rem;
-		padding: 5.5rem;
+		padding: 2.9rem 5.5rem;
 
 		border-radius: 1.875rem;
 		background: var(--white);
 
 		h2 {
-			font-size: 2.976rem;
+			font-size: 2.9rem;
 			text-transform: uppercase;
-			margin-bottom: 2.8125rem;
+		}
+
+		.input {
+			margin-top: 2.8rem;
+
+			& + .input {
+				margin-top: 1.5rem;
+			}
 		}
 
 		> button {
@@ -55,6 +62,20 @@ export const Container = styled.div`
 				&:hover {
 					text-decoration: underline;
 				}
+			}
+		}
+	}
+
+	@media (max-height: 760px) {
+		form {
+			padding: 2rem 5rem;
+
+			h2 {
+				font-size: 2.5rem;
+			}
+
+			.input {
+				margin-top: 1rem;
 			}
 		}
 	}

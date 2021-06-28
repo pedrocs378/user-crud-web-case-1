@@ -29,15 +29,15 @@ export const Container = styled.div`
 		position: relative;
 		width: 100%;
 		max-width: 35.3rem;
-		padding: 5.5rem;
+		padding: 2.9rem 5.5rem;
 
 		border-radius: 1.875rem;
 		background: var(--white);
 
 		h2 {
-			font-size: 2.976rem;
+			font-size: 2.9rem;
 			text-transform: uppercase;
-			margin-bottom: 2.8125rem;
+			margin-bottom: 2.8rem;
 		}
 
 		> button {

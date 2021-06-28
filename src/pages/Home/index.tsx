@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 
-import { Container } from './styles'
+import { Container, TextLink } from './styles'
 
 export function Home() {
 
@@ -26,27 +26,29 @@ export function Home() {
 				</p>
 
 				<Input
+					className="input"
 					name="email"
 					label="E-mail"
-					placeholder="Youraddres@email.com"
+					placeholder="youraddres@email.com"
 				/>
 
 				<Input
+					className="input"
 					name="password"
 					label="Senha"
-					placeholder="Enter your password"
+					placeholder="********"
 					isPassword
 				/>
 
 				<Button type="submit">Login</Button>
 
-				<p className="link">
+				<TextLink>
 					Esqueceu sua senha? <Link to="forgot-password">Clique aqui</Link>
-				</p>
+				</TextLink>
 
-				<p className="link">
+				<TextLink>
 					Não possui uma conta? <Link to="register">Registrar-se</Link>
-				</p>
+				</TextLink>
 			</form>
 		</Container>
 	)

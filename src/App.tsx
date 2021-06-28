@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 
 import { Routes } from './routes';
 
@@ -9,6 +10,7 @@ export function App() {
     <BrowserRouter>
       <Routes />
 
+      <Toaster />
       <GlobalStyles />
     </BrowserRouter>
   );
