@@ -29,6 +29,8 @@ export const Container = styled.div`
 			align-items: center;
 			padding: 0 2.25rem;
 
+			gap: 0.8rem;
+
 			h2 {
 				color: var(--purple);
 				font-size: 1.375rem;
