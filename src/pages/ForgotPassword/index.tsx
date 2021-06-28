@@ -15,7 +15,7 @@ export function ForgotPassword() {
 				<Input
 					name="email"
 					label="Insira seu e-mail"
-					placeholder="Youraddres@email.com"
+					placeholder="youraddres@email.com"
 				/>
 
 				<Button type="submit">Enviar Código</Button>

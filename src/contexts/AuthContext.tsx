@@ -60,9 +60,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	function signOut() {
-		setUser(undefined)
 		removeCookie('@Mindeducation:user')
 		removeCookie('@Mindeducation:token')
+		setUser(undefined)
 	}
 
 	return (
