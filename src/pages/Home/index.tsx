@@ -1,19 +1,35 @@
-import { FormEvent } from 'react'
+import { useState, FormEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 
+import { useAuth } from '../../hooks/useAuth'
+
 import { Container, TextLink } from './styles'
 
 export function Home() {
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+
+	const { signIn } = useAuth()
 
 	const history = useHistory()
 
-	function handleSignIn(event: FormEvent) {
+	async function handleSignIn(event: FormEvent) {
 		event.preventDefault()
 
-		history.push('/dashboard')
+		try {
+			const user = await signIn({
+				email,
+				password
+			})
+
+			history.push(user.isAdmin ? '/dashboard/admin' : '/dashboard')
+		} catch (err) {
+			toast.error('Não foi possivel entrar na conta')
+		}
 	}
 
 	return (
@@ -29,7 +45,9 @@ export function Home() {
 					className="input"
 					name="email"
 					label="E-mail"
-					placeholder="youraddres@email.com"
+					placeholder="youraddress@email.com"
+					value={email}
+					onChange={event => setEmail(event.target.value)}
 				/>
 
 				<Input
@@ -38,6 +56,8 @@ export function Home() {
 					label="Senha"
 					placeholder="********"
 					isPassword
+					value={password}
+					onChange={event => setPassword(event.target.value)}
 				/>
 
 				<Button type="submit">Login</Button>

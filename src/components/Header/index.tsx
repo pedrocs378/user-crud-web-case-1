@@ -1,4 +1,7 @@
 import { ReactNode } from 'react'
+import { useHistory } from 'react-router-dom'
+
+import { useAuth } from '../../hooks/useAuth'
 
 import { Container } from './styles'
 
@@ -7,11 +10,19 @@ interface HeaderProps {
 }
 
 export function Header({ children }: HeaderProps) {
+	const { signOut } = useAuth()
+	const history = useHistory()
+
+	function handleLogout() {
+		signOut()
+
+		history.push('/')
+	}
 
 	return (
 		<Container>
 			{children}
-			<button type="button">
+			<button type="button" onClick={handleLogout}>
 				Logout
 			</button>
 		</Container>
