@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { StylesProvider } from '@material-ui/core/styles';
 import { StandardTextFieldProps } from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
 import { Container } from './styles'
 

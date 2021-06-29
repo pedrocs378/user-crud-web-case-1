@@ -72,7 +72,7 @@ export function DashboardAdmin() {
 	}, [])
 
 	return (
-		<Container>
+		<Container id="dashboard-admin">
 			<EditUserModal
 				isOpen={isEditModalOpen}
 				user={userToBeUpdated}

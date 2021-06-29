@@ -16,7 +16,7 @@ export const Container = styled.div`
 			font-size: 1.7rem;
 		}
 
-		div {
+		> div {
 			display: flex;
 			align-items: center;
 			gap: 2.31rem;
@@ -40,9 +40,17 @@ export const Container = styled.div`
 
 				transition: ease 0.3s;
 
+				svg {
+					fill: var(--purple);
+				}
+
 				&:hover {
 					background: var(--purple);
 					color: var(--white);
+
+					svg {
+						fill: var(--white);
+					}
 				}
 			}
 		}

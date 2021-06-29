@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
+import * as Yup from 'yup'
 
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
@@ -9,9 +10,14 @@ import { useAuth } from '../../hooks/useAuth'
 
 import { Container, TextLink } from './styles'
 
+interface ValidationErrors {
+	[key: string]: string
+}
+
 export function Home() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 
 	const { signIn } = useAuth()
 
@@ -21,13 +27,41 @@ export function Home() {
 		event.preventDefault()
 
 		try {
-			const user = await signIn({
-				email,
-				password
+			setValidationErrors({})
+
+			const schema = Yup.object().shape({
+				email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+				password: Yup.string().required('Senha obrigatória'),
 			})
+
+			const data = {
+				email,
+				password,
+			}
+
+			await schema.validate(data, {
+				abortEarly: false
+			})
+
+			const user = await signIn(data)
 
 			history.push(user.isAdmin ? '/dashboard/admin' : '/dashboard')
 		} catch (err) {
+			if (err instanceof Yup.ValidationError) {
+				err.inner.forEach(error => {
+					setValidationErrors(state => {
+						return {
+							...state,
+							[error.path || '']: error.message
+						}
+					})
+
+					toast.error(error.message)
+				})
+
+				return
+			}
+
 			toast.error('Não foi possivel entrar na conta')
 		}
 	}
@@ -48,6 +82,7 @@ export function Home() {
 					placeholder="youraddress@email.com"
 					value={email}
 					onChange={event => setEmail(event.target.value)}
+					error={!!validationErrors['email']}
 				/>
 
 				<Input
@@ -58,6 +93,7 @@ export function Home() {
 					isPassword
 					value={password}
 					onChange={event => setPassword(event.target.value)}
+					error={!!validationErrors['password']}
 				/>
 
 				<Button type="submit">Login</Button>

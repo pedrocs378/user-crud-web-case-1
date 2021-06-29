@@ -41,6 +41,7 @@ export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModa
 
 	return (
 		<Modal
+			appElement={document.getElementById('root') as HTMLElement}
 			isOpen={isOpen}
 			onRequestClose={onRequestClose}
 			className="react-modal-content"

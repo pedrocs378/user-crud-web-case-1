@@ -1,7 +1,8 @@
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 import Modal, { Props as ModalProps } from 'react-modal'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
+import * as Yup from 'yup'
 
 import { Input } from '../Input'
 import { Button } from '../Button'
@@ -9,6 +10,10 @@ import { Button } from '../Button'
 import { api } from '../../services/api'
 
 import { Container } from './styles'
+
+interface ValidationErrors {
+	[key: string]: string
+}
 
 interface User {
 	id: string
@@ -27,27 +32,61 @@ interface EditUserModalProps extends ModalProps {
 export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalProps) {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
+	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
 	async function handleUpdateUser(event: FormEvent) {
 		event.preventDefault()
-		setIsLoading(true)
 
 		try {
 			if (user) {
-				const response = await api.put(`/users/${user.id}`, {
+				setIsLoading(true)
+				setValidationErrors({})
+
+				const schema = Yup.object().shape({
+					name: Yup.string().required('Nome obrigatório').min(3, 'Nome muito curto'),
+					email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+				})
+
+				const data = {
 					name,
 					email
+				}
+
+				await schema.validate(data, {
+					abortEarly: false
 				})
+
+				const response = await api.put(`/users/${user.id}`, data)
 
 				onRequestClose()
 				toast.success(`${response.data.name} foi atualizado`)
 			}
-		} catch {
+		} catch (err) {
+			if (err instanceof Yup.ValidationError) {
+				err.inner.forEach(error => {
+					setValidationErrors(state => {
+						return {
+							...state,
+							[error.path || '']: error.message
+						}
+					})
+
+					toast.error(error.message)
+				})
+
+				return
+			}
+
 			toast.error('Não foi possivel editar o usuário')
 		} finally {
 			setIsLoading(false)
 		}
+	}
+
+	function handleClose() {
+		setValidationErrors({})
+		onRequestClose()
 	}
 
 	useEffect(() => {
@@ -59,8 +98,9 @@ export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalPro
 
 	return (
 		<Modal
+			appElement={document.getElementById('root') as HTMLElement}
 			isOpen={isOpen}
-			onRequestClose={onRequestClose}
+			onRequestClose={handleClose}
 			className="react-modal-content"
 			overlayClassName="react-modal-overlay"
 		>
@@ -72,16 +112,21 @@ export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalPro
 					name="name"
 					label="Nome"
 					placeholder="Digite seu nome"
+					required
 					value={name}
 					onChange={event => setName(event.target.value)}
+					error={!!validationErrors['name']}
 				/>
 				<Input
 					className="input"
 					name="email"
+					type="email"
 					label="E-mail"
 					placeholder="youraddres@email.com"
+					required
 					value={email}
 					onChange={event => setEmail(event.target.value)}
+					error={!!validationErrors['email']}
 				/>
 				<Input
 					className="input"
@@ -108,7 +153,7 @@ export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalPro
 					) : "Confirmar"}
 				</Button>
 
-				<button type="button" onClick={onRequestClose}>
+				<button type="button" onClick={handleClose}>
 					Voltar
 				</button>
 			</Container>
