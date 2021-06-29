@@ -10,6 +10,7 @@ import { Button } from '../Button'
 import { api } from '../../services/api'
 
 import { Container } from './styles'
+import { useAuth } from '../../hooks/useAuth'
 
 interface ValidationErrors {
 	[key: string]: string
@@ -35,6 +36,8 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
+	const { user: authenticatedUser } = useAuth()
+
 	async function handleUpdateUser(event: FormEvent) {
 		event.preventDefault()
 
@@ -57,11 +60,19 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 					abortEarly: false
 				})
 
-				const response = await api.put(`/users/${user.id}`, data)
+				if (authenticatedUser?.isAdmin) {
+					const response = await api.put(`/users/${user.id}`, data)
 
-				onSuccessUpdate && onSuccessUpdate(response.data)
-				onRequestClose()
-				toast.success(`${response.data.name} foi atualizado`)
+					onSuccessUpdate && onSuccessUpdate(response.data)
+					toast.success(`${response.data.name} foi atualizado`)
+				} else {
+					const response = await api.put(`/profile`, data)
+
+					onSuccessUpdate && onSuccessUpdate(response.data)
+					toast.success(`${response.data.name} foi atualizado`)
+				}
+
+				handleClose()
 			}
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {

@@ -87,6 +87,7 @@ export function Register() {
 					name="name"
 					label="Nome"
 					placeholder="Digite o seu nome"
+					required
 					value={name}
 					onChange={event => setName(event.target.value)}
 					error={!!validationErrors['name']}
@@ -97,6 +98,7 @@ export function Register() {
 					name="email"
 					label="E-mail"
 					placeholder="youraddres@email.com"
+					required
 					value={email}
 					onChange={event => setEmail(event.target.value)}
 					error={!!validationErrors['email']}
@@ -107,6 +109,7 @@ export function Register() {
 					name="password"
 					label="Senha"
 					placeholder="********"
+					required
 					isPassword
 					value={password}
 					onChange={event => setPassword(event.target.value)}
@@ -118,6 +121,7 @@ export function Register() {
 					name="password_confirmation"
 					label="Confirmar senha"
 					placeholder="********"
+					required
 					isPassword
 					value={password_confirmation}
 					onChange={event => setPasswordConfirmation(event.target.value)}

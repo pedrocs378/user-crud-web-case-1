@@ -80,6 +80,7 @@ export function Home() {
 					name="email"
 					label="E-mail"
 					placeholder="youraddress@email.com"
+					required
 					value={email}
 					onChange={event => setEmail(event.target.value)}
 					error={!!validationErrors['email']}
@@ -90,6 +91,7 @@ export function Home() {
 					name="password"
 					label="Senha"
 					placeholder="********"
+					required
 					isPassword
 					value={password}
 					onChange={event => setPassword(event.target.value)}
