@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, useCallback, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { MdDashboard, MdShoppingCart } from 'react-icons/md'
 import { GrMail } from 'react-icons/gr'
@@ -8,8 +8,6 @@ import { GoTools } from 'react-icons/go'
 import { IoSearchOutline } from 'react-icons/io5'
 import Loading from 'react-loading'
 import IconButton from '@material-ui/core/IconButton';
-import { format } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
 
 import { Logo } from '../../components/Logo'
 import { Header } from '../../components/Header'
@@ -18,6 +16,7 @@ import { DeleteUserModal } from '../../components/DeleteUserModal'
 import { Footer } from '../../components/Footer'
 
 import { api } from '../../services/api'
+import { parseUsers } from '../../utils/parseUsers'
 
 import { Container, Navigation } from './styles'
 
@@ -33,21 +32,29 @@ export function DashboardAdmin() {
 	const [users, setUsers] = useState<User[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+	const [userIdToBeDeleted, setUserIdToBeDeleted] = useState('')
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+	async function handleCloseDeleteModal() {
+		setIsDeleteModalOpen(false)
+
+		const response = await api.get<User[]>('/users')
+		const parsedUsers = parseUsers(response.data)
+		setUsers(parsedUsers)
+	}
+
+	const handleOpenDeleteModal = useCallback((id: string) => {
+		setUserIdToBeDeleted(id)
+		setIsDeleteModalOpen(true)
+	}, [])
 
 	useEffect(() => {
 		setIsLoading(true)
 
 		api.get<User[]>('/users')
 			.then(response => {
-				const parsedUsers = response.data.map(user => {
-					return {
-						...user,
-						createdAtFormatted: format(new Date(user.created_at), 'dd/MM/yyyy', {
-							locale: ptBR
-						})
-					}
-				})
+				const parsedUsers = parseUsers(response.data)
 
 				setUsers(parsedUsers)
 			})
@@ -63,7 +70,8 @@ export function DashboardAdmin() {
 
 			<DeleteUserModal
 				isOpen={isDeleteModalOpen}
-				onRequestClose={() => setIsDeleteModalOpen(false)}
+				userId={userIdToBeDeleted}
+				onRequestClose={handleCloseDeleteModal}
 			/>
 
 			<aside>
@@ -154,7 +162,7 @@ export function DashboardAdmin() {
 												</IconButton>
 											</td>
 											<td className="button">
-												<IconButton onClick={() => setIsDeleteModalOpen(true)}>
+												<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
 													<AiOutlineCloseCircle />
 												</IconButton>
 											</td>
