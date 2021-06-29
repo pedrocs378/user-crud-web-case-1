@@ -24,6 +24,7 @@ interface User {
 	id: string
 	name: string
 	email: string
+	isAdmin: boolean
 	created_at: string
 	createdAtFormatted: string
 }

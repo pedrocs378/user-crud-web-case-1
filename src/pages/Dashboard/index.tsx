@@ -12,18 +12,18 @@ import developerActivityImg from '../../assets/developer-activity.svg'
 
 import { Container, Navigation, UserWelcome } from './styles'
 
-
 export function Dashboard() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
-	const { user } = useAuth()
+	const { user, updateUserData } = useAuth()
 
 	return (
 		<Container>
 			<EditUserModal
-				user={undefined}
+				user={user}
 				isOpen={isEditModalOpen}
 				onRequestClose={() => setIsEditModalOpen(false)}
+				onSuccessUpdate={updateUserData}
 			/>
 
 			<aside>

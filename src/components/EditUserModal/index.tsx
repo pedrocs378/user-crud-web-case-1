@@ -19,17 +19,17 @@ interface User {
 	id: string
 	name: string
 	email: string
-	created_at: string
-	createdAtFormatted: string
+	isAdmin: boolean
 }
 
 interface EditUserModalProps extends ModalProps {
 	isOpen: boolean
 	user: User | undefined
 	onRequestClose: () => void
+	onSuccessUpdate?: (data: User) => void
 }
 
-export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalProps) {
+export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }: EditUserModalProps) {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
@@ -59,6 +59,7 @@ export function EditUserModal({ isOpen, user, onRequestClose }: EditUserModalPro
 
 				const response = await api.put(`/users/${user.id}`, data)
 
+				onSuccessUpdate && onSuccessUpdate(response.data)
 				onRequestClose()
 				toast.success(`${response.data.name} foi atualizado`)
 			}

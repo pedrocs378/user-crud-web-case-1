@@ -19,6 +19,7 @@ interface AuthContextData {
 	user: User | undefined
 	signIn: (credentials: SignInCredentials) => Promise<User>
 	signOut: () => void
+	updateUserData: (data: User) => void
 }
 
 interface AuthProviderProps {
@@ -65,8 +66,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		setUser(undefined)
 	}
 
+	function updateUserData(data: User) {
+		setUser(data)
+		setCookie('@Mindeducation:user', data)
+	}
+
 	return (
-		<AuthContext.Provider value={{ user, signIn, signOut }}>
+		<AuthContext.Provider value={{ user, signIn, signOut, updateUserData }}>
 			{children}
 		</AuthContext.Provider>
 	)
