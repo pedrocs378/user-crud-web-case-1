@@ -31,18 +31,34 @@ interface User {
 export function DashboardAdmin() {
 	const [users, setUsers] = useState<User[]>([])
 	const [isLoading, setIsLoading] = useState(false)
+	const [userToBeUpdated, setUserToBeUpdated] = useState<User | undefined>()
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
 	const [userIdToBeDeleted, setUserIdToBeDeleted] = useState('')
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-	async function handleCloseDeleteModal() {
-		setIsDeleteModalOpen(false)
-
+	async function fetchUsers() {
 		const response = await api.get<User[]>('/users')
 		const parsedUsers = parseUsers(response.data)
 		setUsers(parsedUsers)
 	}
+
+	async function handleCloseUpdateModal() {
+		setIsEditModalOpen(false)
+
+		await fetchUsers()
+	}
+
+	async function handleCloseDeleteModal() {
+		setIsDeleteModalOpen(false)
+
+		await fetchUsers()
+	}
+
+	const handleOpenUpdateModal = useCallback((user: User) => {
+		setUserToBeUpdated(user)
+		setIsEditModalOpen(true)
+	}, [])
 
 	const handleOpenDeleteModal = useCallback((id: string) => {
 		setUserIdToBeDeleted(id)
@@ -52,20 +68,15 @@ export function DashboardAdmin() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		api.get<User[]>('/users')
-			.then(response => {
-				const parsedUsers = parseUsers(response.data)
-
-				setUsers(parsedUsers)
-			})
-			.finally(() => setIsLoading(false))
+		fetchUsers().finally(() => setIsLoading(false))
 	}, [])
 
 	return (
 		<Container>
 			<EditUserModal
 				isOpen={isEditModalOpen}
-				onRequestClose={() => setIsEditModalOpen(false)}
+				user={userToBeUpdated}
+				onRequestClose={handleCloseUpdateModal}
 			/>
 
 			<DeleteUserModal
@@ -157,7 +168,7 @@ export function DashboardAdmin() {
 											<td>{user.email}</td>
 											<td>{user.createdAtFormatted}</td>
 											<td className="button">
-												<IconButton onClick={() => setIsEditModalOpen(true)}>
+												<IconButton onClick={() => handleOpenUpdateModal(user)}>
 													<GoTools />
 												</IconButton>
 											</td>

@@ -4,6 +4,10 @@ export const Container = styled.button`
 	height: 4.68rem;
 	width: 100%;
 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	background: var(--purple);
 	color: var(--white);
 	

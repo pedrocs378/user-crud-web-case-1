@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import Modal, { Props as ModalProps } from 'react-modal'
 import { toast } from 'react-hot-toast'
+import Loading from 'react-loading'
 
 import { Button } from '../Button'
 
@@ -16,8 +18,11 @@ interface EditUserModalProps extends ModalProps {
 }
 
 export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModalProps) {
+	const [isLoading, setIsLoading] = useState(false)
 
 	async function handleDeleteUser() {
+		setIsLoading(true)
+
 		try {
 			if (!userId.trim()) {
 				return
@@ -29,6 +34,8 @@ export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModa
 			toast.success(`${response.data.name} foi excluido`)
 		} catch {
 			toast.error('Não foi possivel excluir o usuário')
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -50,7 +57,13 @@ export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModa
 
 					<div>
 						<button type="button" onClick={handleDeleteUser}>
-							Confirmar
+							{isLoading ? (
+								<Loading
+									type="spinningBubbles"
+									height={26}
+									width={26}
+								/>
+							) : "Confirmar"}
 						</button>
 
 						<Button type="button" onClick={onRequestClose}>

@@ -26,6 +26,10 @@ export const Container = styled.div`
 				height: 4.68rem;
 				width: 100%;
 
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
 				background: var(--white);
 				color: var(--purple);
 				

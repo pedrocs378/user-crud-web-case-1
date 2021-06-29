@@ -21,6 +21,7 @@ export function Dashboard() {
 	return (
 		<Container>
 			<EditUserModal
+				user={undefined}
 				isOpen={isEditModalOpen}
 				onRequestClose={() => setIsEditModalOpen(false)}
 			/>
