@@ -166,7 +166,7 @@ export function DashboardAdmin() {
 					</label>
 
 					<button type="submit">
-						{isLoading ? (
+						{isSearchLoading ? (
 							<Loading
 								type="spinningBubbles"
 								color="var(--white)"
