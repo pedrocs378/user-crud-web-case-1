@@ -5,58 +5,96 @@ export const Container = styled.header`
 	background: var(--white);
 
 	display: flex;
-	align-items: center;
 
-	padding: 0 2.8125rem;
+	padding: 0 2.25rem;
 
-	label {
+	div {
+		width: 100%;
+		max-width: 1440px;
+		margin: 0 auto;
+
 		display: flex;
 		align-items: center;
 
-		height: 3.3125rem;
-		width: 100%;
-		max-width: 22.12rem;
+		form {
+			display: flex;
 
-		background: var(--gray-50);
-		border-radius: 5px;
-
-		&:hover {
-			opacity: 0.8;
-		}
-
-		svg {
-			height: 1.4rem;
-			width: 1.4rem;
-			color: var(--gray-400);
-			margin: 0 0.9rem 0 1.4rem;
-		}
-
-		input {
-			height: 100%;
+			height: 3.3125rem;
 			width: 100%;
-			padding: 0.5rem;
-			border: 0;
-			background: transparent;
-			outline: none;
-			font-size: 0.9rem;
-			font-weight: 700;
+			max-width: 25.4rem;
 
-			&::placeholder {
-				color: var(--gray-400);
+			border-radius: 5px;
+			overflow: hidden;
+
+			label {
+				display: flex;
+				align-items: center;
+
+				flex: 1;
+
+				background: var(--gray-50);
+
+				&:hover svg {
+					color: var(--purple);
+				}
+
+				svg {
+					height: 1.4rem;
+					width: 1.4rem;
+					color: var(--gray-400);
+					margin: 0 0.9rem 0 1.4rem;
+
+					transition: color 0.2s;
+				}
+
+				input {
+					height: 100%;
+					width: 100%;
+					padding: 0.5rem;
+					border: 0;
+					background: transparent;
+					outline: none;
+					font-size: 0.9rem;
+					font-weight: 700;
+
+					&::placeholder {
+						color: var(--gray-400);
+					}
+				}
+			}
+
+			button {
+				width: 3.3125rem;
+				border: 0;
+				font-size: 0;
+
+				background: var(--purple);
+
+				transition: filter 0.2s;
+
+				svg {
+					height: 1.4rem;
+					width: 1.4rem;
+					color: var(--white);
+				}
+
+				&:hover {
+					filter: brightness(0.9);
+				}
 			}
 		}
-	}
 
-	button {
-		border: 0;
-		font: 500 1rem 'Poppins', sans-serif;
-		background: transparent;
-		margin-left: auto;
+		> button {
+			border: 0;
+			font: 500 1rem 'Poppins', sans-serif;
+			background: transparent;
+			margin-left: auto;
 
-		transition: opacity 0.2s;
+			transition: opacity 0.2s;
 
-		&:hover {
-			opacity: 0.7;
+			&:hover {
+				opacity: 0.7;
+			}
 		}
 	}
 `;

@@ -21,10 +21,12 @@ export function Header({ children }: HeaderProps) {
 
 	return (
 		<Container>
-			{children}
-			<button type="button" onClick={handleLogout}>
-				Logout
-			</button>
+			<div>
+				{children}
+				<button type="button" onClick={handleLogout}>
+					Logout
+				</button>
+			</div>
 		</Container>
 	)
 }

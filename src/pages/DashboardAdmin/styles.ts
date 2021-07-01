@@ -21,25 +21,11 @@ export const Container = styled.div`
 	main {
 		grid-area: main;
 
-		> div {
-			background: rgba(127, 99, 244, 0.1);
-			height: 3.94rem;
-
-			display: flex;
-			align-items: center;
-			padding: 0 2.25rem;
-
-			gap: 0.8rem;
-
-			h2 {
-				color: var(--purple);
-				font-size: 1.375rem;
-				letter-spacing: 0.22px;
-			}
-		}
-
 		section {
-			padding: 0 1.5rem;
+			max-width: 1440px;
+			margin: 0 auto;
+
+			padding: 0 1rem;
 
 			table {
 				margin-top: 4.81rem;
@@ -146,6 +132,32 @@ export const Navigation = styled.nav`
 					color: var(--purple);	
 				}
 			}
+		}
+	}
+`
+
+export const MainHeader = styled.div`
+	background: rgba(127, 99, 244, 0.1);
+	height: 3.94rem;
+
+	padding: 0 2.25rem;
+
+	display: flex;
+
+	> div {
+		display: flex;
+		align-items: center;
+
+		width: 100%;
+		max-width: 1440px;
+		margin: 0 auto;
+		
+		gap: 0.8rem;
+
+		h2 {
+			color: var(--purple);
+			font-size: 1.375rem;
+			letter-spacing: 0.22px;
 		}
 	}
 `

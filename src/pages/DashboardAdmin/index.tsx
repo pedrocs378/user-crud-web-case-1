@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, Fragment } from 'react'
+import { useState, useEffect, useCallback, Fragment, FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { MdDashboard, MdShoppingCart } from 'react-icons/md'
 import { GrMail } from 'react-icons/gr'
@@ -18,7 +18,8 @@ import { Footer } from '../../components/Footer'
 import { api } from '../../services/api'
 import { parseUsers } from '../../utils/parseUsers'
 
-import { Container, Navigation } from './styles'
+import { Container, Navigation, MainHeader } from './styles'
+import toast from 'react-hot-toast'
 
 interface User {
 	id: string
@@ -31,6 +32,9 @@ interface User {
 
 export function DashboardAdmin() {
 	const [users, setUsers] = useState<User[]>([])
+	const [searchedUsers, setSearchedUsers] = useState<User[]>([])
+	const [searchText, setSearchText] = useState('')
+	const [isSearchLoading, setIsSearchLoading] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [userToBeUpdated, setUserToBeUpdated] = useState<User | undefined>()
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -42,6 +46,32 @@ export function DashboardAdmin() {
 		const response = await api.get<User[]>('/users')
 		const parsedUsers = parseUsers(response.data)
 		setUsers(parsedUsers)
+	}
+
+	async function handleSearchUsers(event: FormEvent) {
+		event.preventDefault()
+
+		if (!searchText.trim()) {
+			return
+		}
+
+		try {
+			setIsLoading(true)
+			setIsSearchLoading(true)
+
+			const response = await api.get<User[]>(`/users/search?name=${searchText}`)
+			const parsedUsers = parseUsers(response.data)
+			setSearchedUsers(parsedUsers)
+		} catch {
+			setSearchedUsers([])
+			toast.error('Nenhum usuário encontrado', {
+				position: 'top-right'
+			})
+		} finally {
+			setIsLoading(false)
+			setIsSearchLoading(false)
+		}
+
 	}
 
 	async function handleCloseUpdateModal() {
@@ -122,29 +152,48 @@ export function DashboardAdmin() {
 			</aside>
 
 			<Header>
-				<label htmlFor="search">
-					<IoSearchOutline />
-					<input
-						type="text"
-						id="search"
-						name="search"
-						placeholder="Search..."
-					/>
-				</label>
+				<form onSubmit={handleSearchUsers}>
+					<label htmlFor="search">
+						<IoSearchOutline />
+						<input
+							type="text"
+							id="search"
+							name="search"
+							placeholder="Pesquisar..."
+							value={searchText}
+							onChange={event => setSearchText(event.target.value)}
+						/>
+					</label>
+
+					<button type="submit">
+						{isLoading ? (
+							<Loading
+								type="spinningBubbles"
+								color="var(--white)"
+								height={24}
+								width={24}
+							/>
+						) : (
+							<IoSearchOutline />
+						)}
+					</button>
+				</form>
 			</Header>
 
 			<main>
-				<div>
-					<h2>Cadastros</h2>
-					{isLoading && (
-						<Loading
-							type="bubbles"
-							color="var(--purple)"
-							height={24}
-							width={24}
-						/>
-					)}
-				</div>
+				<MainHeader>
+					<div>
+						<h2>Cadastros</h2>
+						{isLoading && (
+							<Loading
+								type="bubbles"
+								color="var(--purple)"
+								height={24}
+								width={24}
+							/>
+						)}
+					</div>
+				</MainHeader>
 
 				<section>
 					<table>
@@ -160,29 +209,53 @@ export function DashboardAdmin() {
 						</thead>
 
 						<tbody>
-							{users.map((user, index) => {
-								return (
-									<Fragment key={user.id}>
-										<tr>
-											<td>{index + 1}</td>
-											<td>{user.name}</td>
-											<td>{user.email}</td>
-											<td>{user.createdAtFormatted}</td>
-											<td className="button">
-												<IconButton onClick={() => handleOpenUpdateModal(user)}>
-													<GoTools />
-												</IconButton>
-											</td>
-											<td className="button">
-												<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
-													<AiOutlineCloseCircle />
-												</IconButton>
-											</td>
-										</tr>
-										<tr className="spacing" />
-									</Fragment>
-								)
-							})}
+							{searchedUsers.length > 0
+								? searchedUsers.map((user, index) => {
+									return (
+										<Fragment key={user.id}>
+											<tr>
+												<td>{index + 1}</td>
+												<td>{user.name}</td>
+												<td>{user.email}</td>
+												<td>{user.createdAtFormatted}</td>
+												<td className="button">
+													<IconButton onClick={() => handleOpenUpdateModal(user)}>
+														<GoTools />
+													</IconButton>
+												</td>
+												<td className="button">
+													<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
+														<AiOutlineCloseCircle />
+													</IconButton>
+												</td>
+											</tr>
+											<tr className="spacing" />
+										</Fragment>
+									)
+								})
+								: users.map((user, index) => {
+									return (
+										<Fragment key={user.id}>
+											<tr>
+												<td>{index + 1}</td>
+												<td>{user.name}</td>
+												<td>{user.email}</td>
+												<td>{user.createdAtFormatted}</td>
+												<td className="button">
+													<IconButton onClick={() => handleOpenUpdateModal(user)}>
+														<GoTools />
+													</IconButton>
+												</td>
+												<td className="button">
+													<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
+														<AiOutlineCloseCircle />
+													</IconButton>
+												</td>
+											</tr>
+											<tr className="spacing" />
+										</Fragment>
+									)
+								})}
 						</tbody>
 					</table>
 				</section>
