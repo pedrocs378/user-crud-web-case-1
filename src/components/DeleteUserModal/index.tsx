@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Modal, { Props as ModalProps } from 'react-modal'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
@@ -20,7 +20,7 @@ interface EditUserModalProps extends ModalProps {
 export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModalProps) {
 	const [isLoading, setIsLoading] = useState(false)
 
-	async function handleDeleteUser() {
+	const handleDeleteUser = useCallback(async () => {
 		setIsLoading(true)
 
 		try {
@@ -37,7 +37,7 @@ export function DeleteUserModal({ isOpen, userId, onRequestClose }: EditUserModa
 		} finally {
 			setIsLoading(false)
 		}
-	}
+	}, [userId, onRequestClose])
 
 	return (
 		<Modal

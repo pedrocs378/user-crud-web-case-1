@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from 'react'
+import { useState, FormEvent, useEffect, useCallback } from 'react'
 import Modal, { Props as ModalProps } from 'react-modal'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
@@ -43,7 +43,22 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
-	async function handleUpdateUser(event: FormEvent) {
+	function clearFields() {
+		setName('')
+		setEmail('')
+		setAdmin(false)
+		setCpf('')
+		setPassword('')
+		setPasswordConfirmation('')
+	}
+
+	const handleClose = useCallback(() => {
+		clearFields()
+		setValidationErrors({})
+		onRequestClose()
+	}, [onRequestClose])
+
+	const handleUpdateUser = useCallback(async (event: FormEvent) => {
 		event.preventDefault()
 
 		try {
@@ -102,22 +117,7 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 		} finally {
 			setIsLoading(false)
 		}
-	}
-
-	function clearFields() {
-		setName('')
-		setEmail('')
-		setAdmin(false)
-		setCpf('')
-		setPassword('')
-		setPasswordConfirmation('')
-	}
-
-	function handleClose() {
-		clearFields()
-		setValidationErrors({})
-		onRequestClose()
-	}
+	}, [user, name, cpf, email, admin, password, password_confirmation, onSuccessUpdate, handleClose])
 
 	useEffect(() => {
 		if (user) {
