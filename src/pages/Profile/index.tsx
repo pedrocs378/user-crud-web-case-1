@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react'
 import Loading from 'react-loading'
 import { toast } from 'react-hot-toast'
-import { validateCPF } from 'validations-br'
 import * as Yup from 'yup'
 
 import { Header } from '../../components/Header'
@@ -24,7 +23,8 @@ export function Profile() {
 
 	const [name, setName] = useState(user?.name ?? '')
 	const [email, setEmail] = useState(user?.email ?? '')
-	const [cpf, setCpf] = useState(user?.cpf ?? '')
+	const [password, setPassword] = useState('')
+	const [old_password, setOldPassword] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -38,17 +38,20 @@ export function Profile() {
 
 				const schema = Yup.object().shape({
 					name: Yup.string().required('Nome obrigatório').min(3, 'Nome muito curto'),
-					cpf: Yup
-						.string()
-						.required('CPF obrigatório')
-						.test('isCpf', 'CPF inválido', value => validateCPF(String(value))),
 					email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+					old_password: Yup.string(),
+					password: Yup.string().when('old_password', {
+						is: (val: string) => !!val.length,
+						then: Yup.string().required('Insira a nova senha'),
+						otherwise: Yup.string()
+					})
 				})
 
 				const data = {
 					name,
-					cpf,
-					email
+					email,
+					old_password,
+					password
 				}
 
 				await schema.validate(data, {
@@ -96,16 +99,6 @@ export function Profile() {
 					/>
 					<Input
 						className="input"
-						name="cpf"
-						label="CPF"
-						placeholder="xxx.xxx.xxx-xx"
-						required
-						value={cpf}
-						onChange={event => setCpf(event.target.value)}
-						error={!!validationErrors['cpf']}
-					/>
-					<Input
-						className="input"
 						name="email"
 						type="email"
 						label="E-mail"
@@ -115,19 +108,25 @@ export function Profile() {
 						onChange={event => setEmail(event.target.value)}
 						error={!!validationErrors['email']}
 					/>
+
+					<Input
+						className="input"
+						name="old_password"
+						label="Senha atual"
+						placeholder="********"
+						isPassword
+						value={old_password}
+						onChange={event => setOldPassword(event.target.value)}
+					/>
+
 					<Input
 						className="input"
 						name="password"
-						label="Senha"
+						label="Nova senha"
 						placeholder="********"
 						isPassword
-					/>
-					<Input
-						className="input"
-						name="password_confirmation"
-						label="Confirme sua senha"
-						placeholder="********"
-						isPassword
+						value={password}
+						onChange={event => setPassword(event.target.value)}
 					/>
 
 					<Button type="submit">

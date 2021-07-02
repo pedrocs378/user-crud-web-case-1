@@ -153,6 +153,7 @@ export function UsersList() {
 									<th>Nome</th>
 									<th>CPF</th>
 									<th>E-mail</th>
+									<th>Admin?</th>
 									<th></th>
 									<th></th>
 								</tr>
@@ -168,6 +169,7 @@ export function UsersList() {
 													<td>{user.name}</td>
 													<td>{user.cpf}</td>
 													<td>{user.email}</td>
+													<td>{user.isAdmin ? "Sim" : "Não"}</td>
 													<td className="button">
 														<IconButton
 															onClick={() => handleOpenUpdateModal(user)}
@@ -195,6 +197,7 @@ export function UsersList() {
 													<td>{user.name}</td>
 													<td>{user.cpf}</td>
 													<td>{user.email}</td>
+													<td>{user.isAdmin ? "Sim" : "Não"}</td>
 													<td className="button">
 														<IconButton onClick={() => handleOpenUpdateModal(user)}>
 															<GoTools />
