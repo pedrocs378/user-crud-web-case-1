@@ -6,6 +6,7 @@ import { validateCPF } from 'validations-br'
 import * as Yup from 'yup'
 
 import { Input } from '../Input'
+import { CheckboxInput } from '../CheckboxInput'
 import { Button } from '../Button'
 
 import { api } from '../../services/api'
@@ -34,8 +35,9 @@ interface EditUserModalProps extends ModalProps {
 
 export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }: EditUserModalProps) {
 	const [name, setName] = useState('')
-	const [email, setEmail] = useState('')
 	const [cpf, setCpf] = useState('')
+	const [email, setEmail] = useState('')
+	const [admin, setAdmin] = useState(false)
 	const [password, setPassword] = useState('')
 	const [password_confirmation, setPasswordConfirmation] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
@@ -56,6 +58,7 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 						.required('CPF obrigatório')
 						.test('isCpf', 'CPF inválido', value => validateCPF(String(value))),
 					email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+					admin: Yup.boolean(),
 					password: Yup.string(),
 					password_confirmation: Yup.string()
 						.when('password', {
@@ -70,6 +73,7 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 					name,
 					cpf,
 					email,
+					admin,
 					password,
 					password_confirmation
 				}
@@ -100,7 +104,17 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 		}
 	}
 
+	function clearFields() {
+		setName('')
+		setEmail('')
+		setAdmin(false)
+		setCpf('')
+		setPassword('')
+		setPasswordConfirmation('')
+	}
+
 	function handleClose() {
+		clearFields()
 		setValidationErrors({})
 		onRequestClose()
 	}
@@ -110,6 +124,7 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 			setName(user.name)
 			setEmail(user.email)
 			setCpf(user.cpf)
+			setAdmin(user.isAdmin)
 		}
 	}, [user])
 
@@ -155,8 +170,14 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 					onChange={event => setEmail(event.target.value)}
 					error={!!validationErrors['email']}
 				/>
+
+				<CheckboxInput
+					label="Admin?"
+					checked={admin}
+					onChange={event => setAdmin(event.target.checked)}
+				/>
+
 				<Input
-					className="input"
 					name="password"
 					label="Nova senha"
 					placeholder="********"

@@ -12,7 +12,7 @@ interface InputProps extends StandardTextFieldProps {
 }
 
 export function Input({ isPassword = false, ...rest }: InputProps) {
-	const [showPassword, setShowPassoword] = useState(false)
+	const [showPassword, setShowPassword] = useState(false)
 
 	if (isPassword) {
 		return (
@@ -23,7 +23,7 @@ export function Input({ isPassword = false, ...rest }: InputProps) {
 						endAdornment: (
 							<InputAdornment position="end">
 								<IconButton
-									onClick={() => setShowPassoword(state => !state)}
+									onClick={() => setShowPassword(state => !state)}
 								>
 									{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
 								</IconButton>

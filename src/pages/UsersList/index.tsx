@@ -104,6 +104,7 @@ export function UsersList() {
 				isOpen={isEditModalOpen}
 				user={userToBeUpdated}
 				onRequestClose={handleCloseUpdateModal}
+				onSuccessUpdate={fetchUsers}
 			/>
 
 			<DeleteUserModal

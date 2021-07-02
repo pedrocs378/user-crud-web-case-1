@@ -33,4 +33,8 @@ export const Container = styled(TextField)`
 		color: var(--blue-dark);
 		opacity: 0.3;
 	}
+
+	&:not(.MuiSelect-select) {
+		
+	}
 `;
