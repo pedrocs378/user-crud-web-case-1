@@ -36,6 +36,8 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [cpf, setCpf] = useState('')
+	const [password, setPassword] = useState('')
+	const [password_confirmation, setPasswordConfirmation] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -54,12 +56,22 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 						.required('CPF obrigatório')
 						.test('isCpf', 'CPF inválido', value => validateCPF(String(value))),
 					email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+					password: Yup.string(),
+					password_confirmation: Yup.string()
+						.when('password', {
+							is: (value: string) => !!value.length,
+							then: Yup.string().required('Insira a nova senha'),
+							otherwise: Yup.string()
+						})
+						.oneOf([Yup.ref('password'), undefined], 'As senhas precisam ser iguais')
 				})
 
 				const data = {
 					name,
 					cpf,
-					email
+					email,
+					password,
+					password_confirmation
 				}
 
 				await schema.validate(data, {
@@ -146,16 +158,20 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 				<Input
 					className="input"
 					name="password"
-					label="Senha"
+					label="Nova senha"
 					placeholder="********"
 					isPassword
+					value={password}
+					onChange={event => setPassword(event.target.value)}
 				/>
 				<Input
 					className="input"
 					name="password_confirmation"
-					label="Confirme sua senha"
+					label="Confirme a nova senha"
 					placeholder="********"
 					isPassword
+					value={password_confirmation}
+					onChange={event => setPasswordConfirmation(event.target.value)}
 				/>
 
 				<Button type="submit">
