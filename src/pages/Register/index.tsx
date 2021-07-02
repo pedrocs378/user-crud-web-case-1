@@ -18,6 +18,7 @@ interface ValidationErrors {
 export function Register() {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
+	const [cpf, setCpf] = useState('')
 	const [password, setPassword] = useState('')
 	const [password_confirmation, setPasswordConfirmation] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
@@ -35,6 +36,7 @@ export function Register() {
 			const schema = Yup.object().shape({
 				name: Yup.string().required('Nome obrigatório'),
 				email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
+				cpf: Yup.string().required('CPF obrigatório').length(11, 'CPF inválido'),
 				password: Yup.string().required('Senha obrigatória').min(6, 'A senha precisa ter no mínimo 6 caracteres'),
 				password_confirmation: Yup.string()
 					.oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais')
@@ -43,6 +45,7 @@ export function Register() {
 			const data = {
 				name,
 				email,
+				cpf,
 				password,
 				password_confirmation
 			}
@@ -102,6 +105,18 @@ export function Register() {
 					value={email}
 					onChange={event => setEmail(event.target.value)}
 					error={!!validationErrors['email']}
+				/>
+
+				<Input
+					className="input"
+					name="cpf"
+					label="CPF"
+					type="number"
+					placeholder="xxx.xxx.xxx-xx"
+					required
+					value={cpf}
+					onChange={event => setCpf(event.target.value)}
+					error={!!validationErrors['cpf']}
 				/>
 
 				<Input
