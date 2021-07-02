@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { DeleteUserModal } from '../../components/DeleteUserModal'
+import { Load } from '../../components/Load'
 
 import { api } from '../../services/api'
 import { parseUsers } from '../../utils/parseUsers'
@@ -142,72 +143,76 @@ export function UsersList() {
 
 			<Container id="dashboard-admin">
 				<section>
-					<table>
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Nome</th>
-								<th>CPF</th>
-								<th>E-mail</th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
+					{isLoading || isSearchLoading ? (
+						<Load />
+					) : (
+						<table>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nome</th>
+									<th>CPF</th>
+									<th>E-mail</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
 
-						<tbody>
-							{searchedUsers.length > 0
-								? searchedUsers.map((user, index) => {
-									return (
-										<Fragment key={user.id}>
-											<tr>
-												<td>{index + 1}</td>
-												<td>{user.name}</td>
-												<td>{user.cpf}</td>
-												<td>{user.email}</td>
-												<td className="button">
-													<IconButton
-														onClick={() => handleOpenUpdateModal(user)}
-													>
-														<GoTools />
-													</IconButton>
-												</td>
-												<td className="button">
-													<IconButton
-														onClick={() => handleOpenDeleteModal(user.id)}
-													>
-														<AiOutlineCloseCircle />
-													</IconButton>
-												</td>
-											</tr>
-											<tr className="spacing" />
-										</Fragment>
-									)
-								})
-								: users.map((user, index) => {
-									return (
-										<Fragment key={user.id}>
-											<tr>
-												<td>{index + 1}</td>
-												<td>{user.name}</td>
-												<td>{user.cpf}</td>
-												<td>{user.email}</td>
-												<td className="button">
-													<IconButton onClick={() => handleOpenUpdateModal(user)}>
-														<GoTools />
-													</IconButton>
-												</td>
-												<td className="button">
-													<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
-														<AiOutlineCloseCircle />
-													</IconButton>
-												</td>
-											</tr>
-											<tr className="spacing" />
-										</Fragment>
-									)
-								})}
-						</tbody>
-					</table>
+							<tbody>
+								{searchedUsers.length > 0
+									? searchedUsers.map((user, index) => {
+										return (
+											<Fragment key={user.id}>
+												<tr>
+													<td>{index + 1}</td>
+													<td>{user.name}</td>
+													<td>{user.cpf}</td>
+													<td>{user.email}</td>
+													<td className="button">
+														<IconButton
+															onClick={() => handleOpenUpdateModal(user)}
+														>
+															<GoTools />
+														</IconButton>
+													</td>
+													<td className="button">
+														<IconButton
+															onClick={() => handleOpenDeleteModal(user.id)}
+														>
+															<AiOutlineCloseCircle />
+														</IconButton>
+													</td>
+												</tr>
+												<tr className="spacing" />
+											</Fragment>
+										)
+									})
+									: users.map((user, index) => {
+										return (
+											<Fragment key={user.id}>
+												<tr>
+													<td>{index + 1}</td>
+													<td>{user.name}</td>
+													<td>{user.cpf}</td>
+													<td>{user.email}</td>
+													<td className="button">
+														<IconButton onClick={() => handleOpenUpdateModal(user)}>
+															<GoTools />
+														</IconButton>
+													</td>
+													<td className="button">
+														<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
+															<AiOutlineCloseCircle />
+														</IconButton>
+													</td>
+												</tr>
+												<tr className="spacing" />
+											</Fragment>
+										)
+									})}
+							</tbody>
+						</table>
+					)}
 				</section>
 			</Container>
 		</>

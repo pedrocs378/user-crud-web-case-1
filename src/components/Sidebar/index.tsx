@@ -1,11 +1,11 @@
 import { CgProfile } from 'react-icons/cg'
 import { FiUsers } from 'react-icons/fi'
 import { RiDashboardLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
 
 import { Logo } from '../Logo'
 import { ActiveLink } from './ActiveLink'
+
+import { useAuth } from '../../hooks/useAuth'
 
 import { Container, Navigation } from './styles'
 

@@ -66,18 +66,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		setCookie('@Mindeducation:token', response.data.token)
 
 		return response.data.user
-	}, [])
+	}, [setCookie])
 
 	const signOut = useCallback(() => {
 		removeCookie('@Mindeducation:user')
 		removeCookie('@Mindeducation:token')
 		setUser(undefined)
-	}, [])
+	}, [removeCookie])
 
 	const updateUserData = useCallback((data: User) => {
 		setUser(data)
 		setCookie('@Mindeducation:user', data)
-	}, [])
+	}, [setCookie])
 
 	return (
 		<AuthContext.Provider value={{ user, signIn, signOut, updateUserData }}>

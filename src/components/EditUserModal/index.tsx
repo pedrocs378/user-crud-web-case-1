@@ -8,8 +8,6 @@ import * as Yup from 'yup'
 import { Input } from '../Input'
 import { Button } from '../Button'
 
-import { useAuth } from '../../hooks/useAuth'
-
 import { api } from '../../services/api'
 import { getValidationErrors } from '../../utils/getValidationErrors'
 
@@ -41,8 +39,6 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { user: authenticatedUser } = useAuth()
-
 	async function handleUpdateUser(event: FormEvent) {
 		event.preventDefault()
 
@@ -70,17 +66,10 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 					abortEarly: false
 				})
 
-				if (authenticatedUser?.isAdmin) {
-					const response = await api.put(`/users/${user.id}`, data)
+				const response = await api.put(`/users/${user.id}`, data)
 
-					onSuccessUpdate && onSuccessUpdate(response.data)
-					toast.success(`${response.data.name} foi atualizado`)
-				} else {
-					const response = await api.put(`/profile`, data)
-
-					onSuccessUpdate && onSuccessUpdate(response.data)
-					toast.success(`${response.data.name} foi atualizado`)
-				}
+				onSuccessUpdate && onSuccessUpdate(response.data)
+				toast.success(`${response.data.name} foi atualizado`)
 
 				handleClose()
 			}
