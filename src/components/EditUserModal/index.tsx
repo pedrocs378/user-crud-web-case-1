@@ -11,6 +11,7 @@ import { Button } from '../Button'
 import { useAuth } from '../../hooks/useAuth'
 
 import { api } from '../../services/api'
+import { getValidationErrors } from '../../utils/getValidationErrors'
 
 import { Container } from './styles'
 
@@ -85,16 +86,9 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 			}
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
-				err.inner.forEach(error => {
-					setValidationErrors(state => {
-						return {
-							...state,
-							[error.path || '']: error.message
-						}
-					})
+				const errors = getValidationErrors(err)
 
-					toast.error(error.message)
-				})
+				setValidationErrors(errors)
 
 				return
 			}

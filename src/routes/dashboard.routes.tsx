@@ -7,7 +7,7 @@ import { Profile } from '../pages/Profile'
 
 import { AdminRoute } from './AdminRoute'
 
-import { Container } from '../styles/app'
+import { Container } from '../styles/dashboard'
 
 export function DashboardRoutes() {
 

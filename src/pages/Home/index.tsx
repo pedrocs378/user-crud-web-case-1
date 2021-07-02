@@ -7,6 +7,7 @@ import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 
 import { useAuth } from '../../hooks/useAuth'
+import { getValidationErrors } from '../../utils/getValidationErrors'
 
 import { Container, TextLink } from './styles'
 
@@ -48,16 +49,9 @@ export function Home() {
 			history.push('/dashboard')
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
-				err.inner.forEach(error => {
-					setValidationErrors(state => {
-						return {
-							...state,
-							[error.path || '']: error.message
-						}
-					})
+				const errors = getValidationErrors(err)
 
-					toast.error(error.message)
-				})
+				setValidationErrors(errors)
 
 				return
 			}
