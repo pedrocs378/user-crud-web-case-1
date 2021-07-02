@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 import { Logo } from '../Logo'
+import { ActiveLink } from './ActiveLink'
 
 import { Container, Navigation } from './styles'
 
@@ -23,27 +24,23 @@ export function Sidebar() {
 				)}
 
 				<ul>
-					{user?.isAdmin && (
-						<>
-							<li>
-								<Link to="/dashboard">
-									<RiDashboardLine />
-									Dashboard
-								</Link>
-							</li>
-							<li>
-								<Link to="/users">
-									<FiUsers />
-									Usuários
-								</Link>
-							</li>
-						</>
-					)}
 					<li>
-						<Link to="/profile">
+						<ActiveLink to="/dashboard">
+							<RiDashboardLine />
+							Dashboard
+						</ActiveLink>
+					</li>
+					<li>
+						<ActiveLink to="/users">
+							<FiUsers />
+							Usuários
+						</ActiveLink>
+					</li>
+					<li>
+						<ActiveLink to="/profile">
 							<CgProfile />
 							Meu perfil
-						</Link>
+						</ActiveLink>
 					</li>
 				</ul>
 			</Navigation>
