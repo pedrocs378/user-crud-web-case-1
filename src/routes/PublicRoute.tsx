@@ -15,10 +15,10 @@ export function PublicRoute({ component: Component, ...rest }: PublicRouteProps)
 			render={routeProps => {
 				return !user ? (
 					<Component {...routeProps} />
-				) : (
+				) : user.isAdmin && (
 					<Redirect
 						to={{
-							pathname: user.isAdmin ? '/dashboard/admin' : '/dashboard',
+							pathname: '/dashboard',
 							state: { from: routeProps.location }
 						}}
 					/>

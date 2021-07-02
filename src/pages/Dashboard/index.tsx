@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { MdDashboard } from 'react-icons/md'
 
-import { Logo } from '../../components/Logo'
 import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { Footer } from '../../components/Footer'
@@ -10,7 +8,7 @@ import { useAuth } from '../../hooks/useAuth'
 
 import developerActivityImg from '../../assets/developer-activity.svg'
 
-import { Container, Navigation, UserWelcome } from './styles'
+import { Container, UserWelcome } from './styles'
 
 export function Dashboard() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -18,7 +16,7 @@ export function Dashboard() {
 	const { user, updateUserData } = useAuth()
 
 	return (
-		<Container>
+		<>
 			<EditUserModal
 				user={user}
 				isOpen={isEditModalOpen}
@@ -26,31 +24,9 @@ export function Dashboard() {
 				onSuccessUpdate={updateUserData}
 			/>
 
-			<aside>
-				<Logo />
+			<Header title="Dashboard" />
 
-				<Navigation>
-					<p>{user?.email}</p>
-
-					<ul>
-						<li>
-							<button
-								type="button"
-								onClick={() => setIsEditModalOpen(true)}
-							>
-								<MdDashboard />
-								Editar perfil
-							</button>
-						</li>
-					</ul>
-				</Navigation>
-			</aside>
-
-			<Header />
-
-			<main>
-				<div />
-
+			<Container>
 				<UserWelcome>
 					<strong>
 						Bem vindo,<br />
@@ -62,9 +38,9 @@ export function Dashboard() {
 						alt="Desenvolvedor programando"
 					/>
 				</UserWelcome>
-			</main>
+			</Container>
 
 			<Footer />
-		</Container>
+		</>
 	)
 }

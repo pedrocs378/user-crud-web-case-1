@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 import { useCookies } from 'react-cookie'
+import toast from "react-hot-toast";
 
 import { api } from "../services/api";
 
@@ -7,6 +8,7 @@ interface User {
 	id: string
 	name: string
 	email: string
+	cpf: string
 	isAdmin: boolean
 }
 
@@ -50,6 +52,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			email,
 			password
 		})
+
+		if (!response.data.user.isAdmin) {
+			toast.error('Você não tem permissão para entrar')
+
+			throw new Error()
+		}
 
 		api.defaults.headers.authorization = `Bearer ${response.data.token}`
 

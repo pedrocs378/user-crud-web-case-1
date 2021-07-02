@@ -1,19 +1,13 @@
-import { Switch, Redirect } from 'react-router-dom'
-
-import { useAuth } from '../hooks/useAuth'
+import { Switch } from 'react-router-dom'
 
 import { Home } from '../pages/Home'
 import { Register } from '../pages/Register'
 import { ForgotPassword } from '../pages/ForgotPassword'
-import { Dashboard } from '../pages/Dashboard'
-import { DashboardAdmin } from '../pages/DashboardAdmin'
 
 import { PublicRoute } from './PublicRoute'
-import { PrivateRoute } from './PrivateRoute'
-import { AdminRoute } from './AdminRoute'
+import { DashboardRoutes } from './dashboard.routes'
 
 export function Routes() {
-	const { user } = useAuth()
 
 	return (
 		<Switch>
@@ -21,11 +15,7 @@ export function Routes() {
 			<PublicRoute path="/register" component={Register} />
 			<PublicRoute path="/forgot-password" component={ForgotPassword} />
 
-			<PrivateRoute path="/dashboard" exact component={Dashboard}>
-				{user && user.isAdmin && <Redirect to="/dashboard/admin" />}
-			</PrivateRoute>
-
-			<AdminRoute path="/dashboard/admin" component={DashboardAdmin} />
+			<DashboardRoutes />
 		</Switch>
 	)
 }

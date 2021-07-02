@@ -1,36 +1,31 @@
 import { useState, useEffect, useCallback, Fragment, FormEvent } from 'react'
-import { Link } from 'react-router-dom'
-import { MdDashboard, MdShoppingCart } from 'react-icons/md'
-import { GrMail } from 'react-icons/gr'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { GiBrickWall } from 'react-icons/gi'
 import { GoTools } from 'react-icons/go'
 import { IoSearchOutline } from 'react-icons/io5'
 import Loading from 'react-loading'
 import IconButton from '@material-ui/core/IconButton';
+import toast from 'react-hot-toast'
 
-import { Logo } from '../../components/Logo'
 import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
 import { DeleteUserModal } from '../../components/DeleteUserModal'
-import { Footer } from '../../components/Footer'
 
 import { api } from '../../services/api'
 import { parseUsers } from '../../utils/parseUsers'
 
-import { Container, Navigation, MainHeader } from './styles'
-import toast from 'react-hot-toast'
+import { Container } from './styles'
 
 interface User {
 	id: string
 	name: string
 	email: string
+	cpf: string
 	isAdmin: boolean
 	created_at: string
 	createdAtFormatted: string
 }
 
-export function DashboardAdmin() {
+export function UsersList() {
 	const [users, setUsers] = useState<User[]>([])
 	const [searchedUsers, setSearchedUsers] = useState<User[]>([])
 	const [searchText, setSearchText] = useState('')
@@ -103,7 +98,7 @@ export function DashboardAdmin() {
 	}, [])
 
 	return (
-		<Container id="dashboard-admin">
+		<>
 			<EditUserModal
 				isOpen={isEditModalOpen}
 				user={userToBeUpdated}
@@ -116,42 +111,7 @@ export function DashboardAdmin() {
 				onRequestClose={handleCloseDeleteModal}
 			/>
 
-			<aside>
-				<Logo />
-
-				<Navigation>
-					<strong>Navegação</strong>
-
-					<ul>
-						<li>
-							<Link to="/dashboard/admin">
-								<MdDashboard />
-								Dashboard
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<GiBrickWall />
-								Função 2
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<GrMail />
-								Função 3
-							</Link>
-						</li>
-						<li>
-							<Link to="#">
-								<MdShoppingCart />
-								Função 4
-							</Link>
-						</li>
-					</ul>
-				</Navigation>
-			</aside>
-
-			<Header>
+			<Header title="Usuários">
 				<form onSubmit={handleSearchUsers}>
 					<label htmlFor="search">
 						<IoSearchOutline />
@@ -180,29 +140,15 @@ export function DashboardAdmin() {
 				</form>
 			</Header>
 
-			<main>
-				<MainHeader>
-					<div>
-						<h2>Cadastros</h2>
-						{isLoading && (
-							<Loading
-								type="bubbles"
-								color="var(--purple)"
-								height={24}
-								width={24}
-							/>
-						)}
-					</div>
-				</MainHeader>
-
+			<Container id="dashboard-admin">
 				<section>
 					<table>
 						<thead>
 							<tr>
 								<th>#</th>
 								<th>Nome</th>
+								<th>CPF</th>
 								<th>E-mail</th>
-								<th>Data de cadastro</th>
 								<th></th>
 								<th></th>
 							</tr>
@@ -216,15 +162,19 @@ export function DashboardAdmin() {
 											<tr>
 												<td>{index + 1}</td>
 												<td>{user.name}</td>
+												<td>{user.cpf}</td>
 												<td>{user.email}</td>
-												<td>{user.createdAtFormatted}</td>
 												<td className="button">
-													<IconButton onClick={() => handleOpenUpdateModal(user)}>
+													<IconButton
+														onClick={() => handleOpenUpdateModal(user)}
+													>
 														<GoTools />
 													</IconButton>
 												</td>
 												<td className="button">
-													<IconButton onClick={() => handleOpenDeleteModal(user.id)}>
+													<IconButton
+														onClick={() => handleOpenDeleteModal(user.id)}
+													>
 														<AiOutlineCloseCircle />
 													</IconButton>
 												</td>
@@ -239,8 +189,8 @@ export function DashboardAdmin() {
 											<tr>
 												<td>{index + 1}</td>
 												<td>{user.name}</td>
+												<td>{user.cpf}</td>
 												<td>{user.email}</td>
-												<td>{user.createdAtFormatted}</td>
 												<td className="button">
 													<IconButton onClick={() => handleOpenUpdateModal(user)}>
 														<GoTools />
@@ -259,9 +209,7 @@ export function DashboardAdmin() {
 						</tbody>
 					</table>
 				</section>
-			</main>
-
-			<Footer />
-		</Container>
+			</Container>
+		</>
 	)
 }
