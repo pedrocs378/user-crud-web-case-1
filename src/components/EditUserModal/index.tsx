@@ -2,15 +2,17 @@ import { useState, FormEvent, useEffect } from 'react'
 import Modal, { Props as ModalProps } from 'react-modal'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
+import { validateCPF } from 'validations-br'
 import * as Yup from 'yup'
 
 import { Input } from '../Input'
 import { Button } from '../Button'
 
+import { useAuth } from '../../hooks/useAuth'
+
 import { api } from '../../services/api'
 
 import { Container } from './styles'
-import { useAuth } from '../../hooks/useAuth'
 
 interface ValidationErrors {
 	[key: string]: string
@@ -34,6 +36,7 @@ interface EditUserModalProps extends ModalProps {
 export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }: EditUserModalProps) {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
+	const [cpf, setCpf] = useState('')
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -49,11 +52,16 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 
 				const schema = Yup.object().shape({
 					name: Yup.string().required('Nome obrigatório').min(3, 'Nome muito curto'),
+					cpf: Yup
+						.string()
+						.required('CPF obrigatório')
+						.test('isCpf', 'CPF inválido', value => validateCPF(String(value))),
 					email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
 				})
 
 				const data = {
 					name,
+					cpf,
 					email
 				}
 
@@ -106,6 +114,7 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 		if (user) {
 			setName(user.name)
 			setEmail(user.email)
+			setCpf(user.cpf)
 		}
 	}, [user])
 
@@ -129,6 +138,16 @@ export function EditUserModal({ isOpen, user, onRequestClose, onSuccessUpdate }:
 					value={name}
 					onChange={event => setName(event.target.value)}
 					error={!!validationErrors['name']}
+				/>
+				<Input
+					className="input"
+					name="cpf"
+					label="CPF"
+					placeholder="xxx.xxx.xxx-xx"
+					required
+					value={cpf}
+					onChange={event => setCpf(event.target.value)}
+					error={!!validationErrors['cpf']}
 				/>
 				<Input
 					className="input"

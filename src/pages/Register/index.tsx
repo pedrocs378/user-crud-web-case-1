@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
+import { validateCPF } from 'validations-br'
 import * as Yup from 'yup'
 
 import { Input } from '../../components/Input'
@@ -10,6 +11,7 @@ import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 
 import { Container } from './styles'
+import { getValidationErrors } from '../../utils/getValidationErrors'
 
 interface ValidationErrors {
 	[key: string]: string
@@ -36,7 +38,10 @@ export function Register() {
 			const schema = Yup.object().shape({
 				name: Yup.string().required('Nome obrigatório'),
 				email: Yup.string().required('Email obrigatório').email('O email precisa ser válido'),
-				cpf: Yup.string().required('CPF obrigatório').length(11, 'CPF inválido'),
+				cpf: Yup
+					.string()
+					.required('CPF obrigatório')
+					.test('isCpf', 'CPF inválido', value => validateCPF(String(value))),
 				password: Yup.string().required('Senha obrigatória').min(6, 'A senha precisa ter no mínimo 6 caracteres'),
 				password_confirmation: Yup.string()
 					.oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais')
@@ -60,16 +65,9 @@ export function Register() {
 			history.goBack()
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
-				err.inner.forEach(error => {
-					setValidationErrors(state => {
-						return {
-							...state,
-							[error.path || '']: error.message
-						}
-					})
+				const errors = getValidationErrors(err)
 
-					toast.error(error.message)
-				})
+				setValidationErrors(errors)
 
 				return
 			}
@@ -111,7 +109,7 @@ export function Register() {
 					className="input"
 					name="cpf"
 					label="CPF"
-					type="number"
+					type="cpf"
 					placeholder="xxx.xxx.xxx-xx"
 					required
 					value={cpf}

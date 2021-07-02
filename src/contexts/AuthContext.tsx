@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState, useCallback } from "react";
 import { useCookies } from 'react-cookie'
 import toast from "react-hot-toast";
 
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		return undefined
 	})
 
-	async function signIn({ email, password }: SignInCredentials) {
+	const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
 		const response = await api.post('/sessions', {
 			email,
 			password
@@ -66,18 +66,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		setCookie('@Mindeducation:token', response.data.token)
 
 		return response.data.user
-	}
+	}, [])
 
-	function signOut() {
+	const signOut = useCallback(() => {
 		removeCookie('@Mindeducation:user')
 		removeCookie('@Mindeducation:token')
 		setUser(undefined)
-	}
+	}, [])
 
-	function updateUserData(data: User) {
+	const updateUserData = useCallback((data: User) => {
 		setUser(data)
 		setCookie('@Mindeducation:user', data)
-	}
+	}, [])
 
 	return (
 		<AuthContext.Provider value={{ user, signIn, signOut, updateUserData }}>
