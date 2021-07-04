@@ -44,9 +44,9 @@ export function Home() {
 				abortEarly: false
 			})
 
-			await signIn(data)
+			const user = await signIn(data)
 
-			history.push('/dashboard')
+			history.push(user.isAdmin ? '/dashboard/admin' : '/dashboard')
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
 				const errors = getValidationErrors(err)

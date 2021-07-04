@@ -24,18 +24,22 @@ export function Sidebar() {
 				)}
 
 				<ul>
-					<li>
-						<ActiveLink to="/dashboard">
-							<RiDashboardLine />
-							Dashboard
-						</ActiveLink>
-					</li>
-					<li>
-						<ActiveLink to="/users">
-							<FiUsers />
-							Usuários
-						</ActiveLink>
-					</li>
+					{user?.isAdmin && (
+						<>
+							<li>
+								<ActiveLink to="/dashboard/admin">
+									<RiDashboardLine />
+									Dashboard
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink to="/users">
+									<FiUsers />
+									Usuários
+								</ActiveLink>
+							</li>
+						</>
+					)}
 					<li>
 						<ActiveLink to="/profile">
 							<CgProfile />

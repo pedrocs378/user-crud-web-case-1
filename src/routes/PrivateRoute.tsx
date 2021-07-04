@@ -2,23 +2,23 @@ import { Redirect, Route, RouteProps } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
 
-type PublicRouteProps = RouteProps & {
+type PrivateRouteProps = RouteProps & {
 	component: React.ComponentType
 }
 
-export function PublicRoute({ component: Component, ...rest }: PublicRouteProps) {
+export function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
 	const { user } = useAuth()
 
 	return (
 		<Route
 			{...rest}
 			render={routeProps => {
-				return !user ? (
+				return !!user ? (
 					<Component {...routeProps} />
 				) : (
 					<Redirect
 						to={{
-							pathname: user.isAdmin ? '/dashboard/admin' : '/dashboard',
+							pathname: '/',
 							state: { from: routeProps.location }
 						}}
 					/>

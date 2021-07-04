@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { Header } from '../../components/Header'
 import { EditUserModal } from '../../components/EditUserModal'
-import { Footer } from '../../components/Footer'
 
 import { useAuth } from '../../hooks/useAuth'
 
@@ -24,7 +23,7 @@ export function Dashboard() {
 				onSuccessUpdate={updateUserData}
 			/>
 
-			<Header title="Dashboard" />
+			<Header />
 
 			<Container>
 				<UserWelcome>
@@ -39,8 +38,6 @@ export function Dashboard() {
 					/>
 				</UserWelcome>
 			</Container>
-
-			<Footer />
 		</>
 	)
 }

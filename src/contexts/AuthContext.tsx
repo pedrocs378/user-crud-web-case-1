@@ -53,12 +53,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			password
 		})
 
-		if (!response.data.user.isAdmin) {
-			toast.error('Você não tem permissão para entrar')
-
-			throw new Error()
-		}
-
 		api.defaults.headers.authorization = `Bearer ${response.data.token}`
 
 		setUser(response.data.user)

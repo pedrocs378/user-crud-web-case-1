@@ -18,7 +18,7 @@ export function AdminRoute({ component: Component, ...rest }: AdminRouteProps) {
 				) : (
 					<Redirect
 						to={{
-							pathname: '/',
+							pathname: !!user ? '/dashboard' : '/',
 							state: { from: routeProps.location }
 						}}
 					/>

@@ -21,6 +21,18 @@ export const Navigation = styled.nav`
 		margin-left: 3.56rem;
 	}
 
+	p {
+		display: inline-block;
+		font: 500 0.875rem 'Poppins', sans-serif;
+		height: 1.56rem;
+		padding: 0 0.75rem;
+		border-radius: 5px;
+		margin-left: 3.56rem;
+
+		color: var(--purple);
+		background: rgba(127, 99, 244, 0.2);
+	}
+
 	ul {
 		list-style: none;
 		margin-top: 1.25rem;
