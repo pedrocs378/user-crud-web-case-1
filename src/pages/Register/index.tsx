@@ -62,7 +62,7 @@ export function Register() {
 			await api.post('/users', data)
 
 			toast.success('Cadastrado com sucesso!')
-			history.goBack()
+			history.push('/')
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
 				const errors = getValidationErrors(err)
