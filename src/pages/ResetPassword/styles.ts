@@ -37,7 +37,10 @@ export const Container = styled.div`
 		h2 {
 			font-size: 2.9rem;
 			text-transform: uppercase;
-			margin-bottom: 2.8rem;
+		}
+
+		.input {
+			margin-top: 1.5rem;
 		}
 
 		> button {

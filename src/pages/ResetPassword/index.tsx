@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useParams, useLocation } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import Loading from 'react-loading'
 import * as Yup from 'yup'
@@ -24,6 +24,8 @@ export function ResetPassword() {
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 
 	const history = useHistory()
+	const location = useLocation()
+	const [_, token] = location.search.split('?token=')
 
 	async function handleResetPassword(event: FormEvent) {
 		event.preventDefault()
@@ -45,8 +47,12 @@ export function ResetPassword() {
 
 			await schema.validate(data)
 
-			await api.post('/password/reset', data)
+			await api.post('/password/reset', {
+				token,
+				password
+			})
 
+			toast.success('Senha resetada com sucesso')
 			history.push('/')
 		} catch (err) {
 			if (err instanceof Yup.ValidationError) {
