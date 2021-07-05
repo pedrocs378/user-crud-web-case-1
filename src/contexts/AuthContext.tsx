@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useState, useCallback } from "react";
 import { useCookies } from 'react-cookie'
-import toast from "react-hot-toast";
 
 import { api } from "../services/api";
 
