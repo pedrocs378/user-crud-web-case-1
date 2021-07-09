@@ -72,7 +72,9 @@ export function Register() {
 				return
 			}
 
-			toast.error('Algo deu errado. Tente novamente!')
+			const message = err.response.data?.message || 'Não foi possivel salvar seu registro. Tente novamente'
+
+			toast.error(message)
 		} finally {
 			setIsLoading(false)
 		}

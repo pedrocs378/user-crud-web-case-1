@@ -25,7 +25,6 @@ export function DashboardRoutes() {
 			<PrivateRoute path="/dashboard" exact component={Dashboard}>
 				{user?.isAdmin && <Redirect to="/dashboard/admin" />}
 			</PrivateRoute>
-
 			<PrivateRoute path="/profile" component={Profile} />
 
 			<AdminRoute
@@ -33,7 +32,6 @@ export function DashboardRoutes() {
 				component={() => <Header title="Dashboard" />}
 			/>
 			<AdminRoute path="/users" component={UsersList} />
-
 
 			<Footer />
 		</Container>

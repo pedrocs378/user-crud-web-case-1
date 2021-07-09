@@ -56,7 +56,9 @@ export function Home() {
 				return
 			}
 
-			toast.error('Não foi possivel entrar na conta')
+			const message = err.response.data?.message || 'Não foi possivel entrar na conta'
+
+			toast.error(message)
 		}
 	}
 

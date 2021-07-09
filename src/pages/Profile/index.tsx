@@ -73,7 +73,9 @@ export function Profile() {
 				return
 			}
 
-			toast.error('Não foi possivel editar seu perfil')
+			const message = err.response.data?.message || 'Não foi possivel editar o perfil.'
+
+			toast.error(message)
 		} finally {
 			setIsLoading(false)
 		}

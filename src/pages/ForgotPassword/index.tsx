@@ -56,7 +56,9 @@ export function ForgotPassword() {
 				return
 			}
 
-			toast.error('Não foi possivel enviar o código')
+			const message = err.response.data?.message || 'Não foi possivel enviar o código.'
+
+			toast.error(message)
 		} finally {
 			setIsLoading(false)
 		}

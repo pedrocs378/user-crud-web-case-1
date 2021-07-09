@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState, useCallback } from "react";
 import { useCookies } from 'react-cookie'
+import { AxiosResponse } from 'axios'
 
 import { api } from "../services/api";
 

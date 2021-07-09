@@ -64,7 +64,9 @@ export function ResetPassword() {
 				return
 			}
 
-			toast.error('Não foi possivel resetar a senha')
+			const message = err.response.data?.message || 'Não foi possivel resetar a senha.'
+
+			toast.error(message)
 		} finally {
 			setIsLoading(false)
 		}
